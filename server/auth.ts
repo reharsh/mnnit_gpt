@@ -15,10 +15,8 @@ const account = new sdk.Account(client);
 
 client
   .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-  .setProject("65f1330d269046c12752") // Your project ID
-  .setKey(
-    "5e11894d5faac6e411f92d12ea21cedf9d36f726c1f95e7793ba3fdd8e591fc6a1a495ca5627d2eacbeedf1142b36ccd125271e1de42ebe19c9d32bdb66d962e035f7127c9ab9c57967ccf5c0e440a6e020f5f8649629ae2f91cd0f2894d3e39624a8189e7150108e7a1a512a7e5de5b1861023e0ad81667546771804e7a4484"
-  ); // Your secret API key
+  .setProject(process.env.APPWRITE_PROJECT_ID) // Your project ID
+  .setKey(process.env.APPWRITE_API_KEY);
 
 const emailSchema = z
   .string()
