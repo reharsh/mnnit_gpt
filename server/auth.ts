@@ -5,8 +5,8 @@ const express = require("express");
 const router = express.Router();
 const sdk = require("node-appwrite");
 router.use(express.json());
+require("dotenv").config();
 
-// Init SDK
 const client = new sdk.Client();
 
 const users = new sdk.Users(client);
@@ -14,8 +14,8 @@ const users = new sdk.Users(client);
 const account = new sdk.Account(client);
 
 client
-  .setEndpoint("https://cloud.appwrite.io/v1") // Your API Endpoint
-  .setProject(process.env.APPWRITE_PROJECT_ID) // Your project ID
+  .setEndpoint("https://cloud.appwrite.io/v1")
+  .setProject(process.env.APPWRITE_PROJECT_ID)
   .setKey(process.env.APPWRITE_API_KEY);
 
 const emailSchema = z
@@ -47,25 +47,23 @@ router.post("/signup", async (req, res) => {
     const name = data.name;
     const email = emailObj.data;
     const uuid = ID.unique();
-    const promise = account.createVerification("http://localhost:3000");
+    // const promise = account.createVerification("http://localhost:3000");
 
-    promise.then(
-      function (response: any) {
-        console.log(response);
-      },
-      function (error: any) {
-        console.log(error);
-      }
-    );
-    //     const promise = users.createBcryptUser(uuid, email, password);
-    //     promise.then(
-    //       function (response: any) {
-    //         res.status(200).json(response);
-    //       },
-    //       function (error: any) {
-    //         res.json(error);
-    //       }
-    //     );
+    // promise.then(
+    //   function (response: any) {
+    //     console.log(response);
+    //   },
+    //   function (error: any) {
+    //     console.log(error);
+    //   }
+    // );
+    const user = await users.createBcryptUser(uuid, email, password);
+    if (user) {
+      console.log("user created!");
+      res.status(200).json(user);
+    } else {
+      res.json({ error: "Error creating user." });
+    }
   }
 });
 

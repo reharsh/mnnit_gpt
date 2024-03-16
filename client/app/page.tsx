@@ -1,15 +1,22 @@
+"use client";
 import Link from "next/link";
 import React from "react";
+import { ReactTyped } from "react-typed";
 
 export default function Home() {
   return (
     <div className="flex items-center justify-center h-screen w-screen bg-black">
       <div className="text-gray-500 md:w-[800px] w-[500px] flex-col flex items-center justify-center z-10 p-6 absolute mt-10">
         Introducing
-        <div className="md:text-4xl text-3xl flex font-bold text-gray-200">
-          AI Powered Answer Engine
+        <div className="h-3"></div>
+        <div className="md:text-5xl text-3xl flex font-bold text-gray-200">
+          <ReactTyped
+            strings={["AI Powered Answer Engine", "Senior Support On Steroids"]}
+            typeSpeed={100}
+            loop
+          />
         </div>
-        <div className="h-10"></div>
+        <div className="h-8"></div>
         <div className="text-6xl font-bold bg-gradient-to-r from-blue-500 to-teal-400 bg-clip-text text-transparent">
           MNNIT GPT
         </div>
