@@ -30,7 +30,7 @@ export default function Home() {
     ]);
     setMessage("");
     setLoading(true);
-    fetch("http://localhost:3001/api/chat", {
+    fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query: message, history: history }),
