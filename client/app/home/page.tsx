@@ -1,9 +1,11 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { Send } from "react-feather";
-import LoadingDots from "@/components/LoadingDots";
 import { ToggleModeBtn } from "@/components/ui/toggle_mode_btn";
 import { DropdownMenuBtn } from "@/components/dropdownmenu";
+import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
+import { WavyBackground } from "@/components/ui/wavy-background";
+import { LoginCard } from "@/components/logincard";
 
 type Message = {
   role: "user" | "assistant";
@@ -12,177 +14,43 @@ type Message = {
 };
 
 export default function Home() {
-  const [message, setMessage] = useState<string>("");
-  const [history, setHistory] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: "Hello! How Can I Help You?",
-    },
-  ]);
-  const lastMessageRef = useRef<HTMLDivElement | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  const { data: session } = useSession();
 
-  const handleClick = () => {
-    if (message == "") return;
-    setHistory((oldHistory) => [
-      ...oldHistory,
-      { role: "user", content: message },
-    ]);
-    setMessage("");
-    setLoading(true);
-    fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query: message, history: history }),
-    })
-      .then(async (res) => {
-        const r = await res.json();
-        setHistory((oldHistory) => [...oldHistory, r]);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const formatPageName = (url: string) => {
-    const pageName = url.split("/").pop();
-
-    // Split by "-" and then join with space
-    if (pageName) {
-      const formattedName = pageName.split("-").join(" ");
-
-      // Capitalize only the first letter of the entire string
-      return formattedName.charAt(0).toUpperCase() + formattedName.slice(1);
-    }
-  };
-
-  //scroll to bottom of chat
-  useEffect(() => {
-    if (lastMessageRef.current) {
-      lastMessageRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [history]);
-
-  return (
-    <main className="h-screen p-6 flex flex-col">
-      <div className=" h-16 w-full flex justify-between items-center border rounded-lg dark:border-zinc-800 p-2">
-        <DropdownMenuBtn></DropdownMenuBtn>
-        <div className="bg-gradient-to-r from-fuchsia-500 to-cyan-500 bg-clip-text text-transparent">
-          MNNIT GPT
+  if (session) {
+    return (
+      <div className="h-screen flex w-screen flex-col">
+        <div className=" h-16 w-full flex justify-between items-center border rounded-lg dark:border-zinc-800 p-2">
+          <DropdownMenuBtn></DropdownMenuBtn>
+          <div className="bg-gradient-to-r from-fuchsia-500 to-cyan-500 bg-clip-text text-transparent">
+            MNNIT GPT
+          </div>
+          <ToggleModeBtn></ToggleModeBtn>
         </div>
-        <ToggleModeBtn></ToggleModeBtn>
+        <div className="h-6"></div>
+        <div className="h-full w-full flex items-center justify-center">
+          <Link href="/chat">
+            {" "}
+            <button className="relative inline-flex h-12 w-96 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+                GET STARTED
+              </span>
+            </button>
+          </Link>
+        </div>
+        <div className="z-5 relative">
+          <img
+            height={60}
+            width={60}
+            src="https://i.redd.it/s13osxs1dqla1.gif"
+          ></img>
+        </div>
       </div>
-      <div className="h-4"></div>
-      <div className="flex flex-col  gap-8 w-full items-center flex-grow max-h-full">
-        <form
-          className="rounded-2xl dark:border-zinc-800 border w-full md:w-[800px] flex-grow flex flex-col max-h-full overflow-clip border-cyan-500"
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleClick();
-          }}
-        >
-          <div className="overflow-y-scroll flex flex-col gap-5 p-10 h-full">
-            {history.map((message: Message, idx) => {
-              const isLastMessage = idx === history.length - 1;
-              switch (message.role) {
-                case "assistant":
-                  return (
-                    <div
-                      ref={isLastMessage ? lastMessageRef : null}
-                      key={idx}
-                      className="flex gap-2"
-                    >
-                      <img
-                        src="images/assistant-avatar.png"
-                        className="h-12 w-12 rounded-full"
-                      />
-                      <div className="w-auto max-w-xl break-words bg-white rounded-b-xl rounded-tr-xl text-black p-6 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]">
-                        <p className="text-sm font-medium text-violet-500 mb-2">
-                          Moti
-                        </p>
-                        {message.content}
-                        {message.links && (
-                          <div className="mt-4 flex flex-col gap-2">
-                            <p className="text-sm font-medium text-slate-500">
-                              Sources:
-                            </p>
-
-                            {message.links?.map((link) => {
-                              return (
-                                <a
-                                  href={link}
-                                  key={link}
-                                  className="block w-fit px-2 py-1 text-sm  text-violet-700 bg-violet-100 rounded"
-                                >
-                                  {formatPageName(link)}
-                                </a>
-                              );
-                            })}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  );
-                case "user":
-                  return (
-                    <div
-                      className="w-auto max-w-xl break-words bg-white rounded-b-xl rounded-tl-xl text-black p-6 self-end shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
-                      key={idx}
-                      ref={isLastMessage ? lastMessageRef : null}
-                    >
-                      <p className="text-sm text-green-500">You</p>
-                      {message.content}
-                    </div>
-                  );
-              }
-            })}
-            {loading && (
-              <div ref={lastMessageRef} className="flex gap-2">
-                <img
-                  src="images/assistant-avatar.png"
-                  className="h-12 w-12 rounded-full"
-                />
-                <div className="w-auto max-w-xl break-words bg-white rounded-b-xl rounded-tr-xl text-black p-6 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]">
-                  <p className="text-sm text-violet-500  mb-4">Moti AI</p>
-                  <LoadingDots />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* input area */}
-          <div className="flex sticky bottom-0 w-full px-6 pb-6 h-24">
-            <div className="w-full relative">
-              <textarea
-                aria-label="chat input"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Type a message"
-                className="w-full h-full resize-none rounded-full border border-slate-900/10 pl-6 pr-24 py-[25px] text-base placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-4 focus:ring-violet-500/10 shadow-[0_10px_40px_0px_rgba(0,0,0,0.15)]"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
-                    e.preventDefault();
-                    handleClick();
-                  }
-                }}
-              />
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleClick();
-                }}
-                className="flex w-14 h-14 pl-2 pt-0.5 items-center justify-center rounded-full px-3 text-sm  bg-violet-600 font-semibold text-white hover:bg-violet-700 active:bg-violet-800 absolute right-2 bottom-2 disabled:bg-violet-100 disabled:text-violet-400"
-                type="submit"
-                aria-label="Send"
-                disabled={!message || loading}
-              >
-                <Send />
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </main>
+    );
+  }
+  return (
+    <WavyBackground>
+      <LoginCard></LoginCard>
+    </WavyBackground>
   );
 }
