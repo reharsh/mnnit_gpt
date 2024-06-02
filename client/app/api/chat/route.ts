@@ -41,16 +41,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const llm = new OpenAI({
-      apiKey: "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",
-    });
+    // const llm = new OpenAI({
+    //   apiKey: process.env.OPENAI_API_KEY,
+    // });
 
     // Option to switch between llms
-    // new TogetherLLM({
-    //   model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
-    //   maxTokens: 512,
-    //   apiKey: process.env.TOGETHER_API_KEY,
-    // });
+    const llm = new TogetherLLM({
+      model: "mistralai/Mixtral-8x7B-Instruct-v0.1",
+      maxTokens: 512,
+      apiKey: process.env.TOGETHER_API_KEY,
+    });
 
     const chatEngine = await createChatEngine(llm);
 
