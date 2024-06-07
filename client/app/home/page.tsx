@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "lucide-react";
 import { WavyBackground } from "@/components/ui/wavy-background";
 import { LoginCard } from "@/components/logincard";
+import HamburgerMenu from "@/components/hamburger";
 
 type Message = {
   role: "user" | "assistant";
@@ -18,32 +19,31 @@ export default function Home() {
 
   if (session) {
     return (
-      <div className="h-screen flex w-screen flex-col">
-        <div className=" h-16 w-full flex justify-between items-center border rounded-lg dark:border-zinc-800 p-2">
-          <DropdownMenuBtn></DropdownMenuBtn>
-          <div className="bg-gradient-to-r from-fuchsia-500 to-cyan-500 bg-clip-text text-transparent">
-            MNNIT GPT
+      <div className="h-screen flex w-screen flex-col p-6">
+        <div className=" h-16 flex justify-between items-center">
+          <div className=" flex items-center border rounded-lg dark:border-zinc-800 pr-4 p-1">
+            <img
+              src="./logo-bg-black.png"
+              height={50}
+              width={50}
+              className=" rounded-full"
+            ></img>
+            <div className=" text-2xl">Orion AI</div>
           </div>
-          <ToggleModeBtn></ToggleModeBtn>
+          <div className=" flex items-center border rounded-lg dark:border-zinc-800 p-2">
+            <HamburgerMenu />
+          </div>
         </div>
         <div className="h-6"></div>
-        <div className="h-full w-full flex items-center justify-center">
-          <Link href="/chat">
+        <div className="h-full w-full flex flex-col items-center justify-center p-20">
+          <div className=" flex items-center justify-center">
             {" "}
-            <button className="relative inline-flex h-12 w-96 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
-              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
-              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-                GET STARTED
-              </span>
-            </button>
-          </Link>
-        </div>
-        <div className="z-5 relative">
-          <img
-            height={60}
-            width={60}
-            src="https://i.redd.it/s13osxs1dqla1.gif"
-          ></img>
+            <img src="https://img.icons8.com/?size=100&id=g6oSYUcFy03N&format=png&color=FFFFFF" />
+            <div className="text-3xl font-medium flex flex-col md:text-5xl text-white relative z-0 p-4">
+              Building Gateway <span>to the Modern Intelligence</span>
+            </div>
+          </div>
+          <div className=" mt-10 border py-2 px-5">LAUNCHING SOON!</div>
         </div>
       </div>
     );
