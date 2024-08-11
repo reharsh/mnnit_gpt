@@ -30,7 +30,7 @@ export default function ChatSection() {
   }, [messages, data]);
 
   return (
-    <div className="space-y-4 flex flex-col justify-between h-full max-w-5xl w-full">
+    <div className="space-y-2 flex flex-col justify-between h-full max-w-5xl w-full">
       {chatActive ? (
         <ChatMessages
           messages={transformedMessages}

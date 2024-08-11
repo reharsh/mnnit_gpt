@@ -36,7 +36,7 @@ const ChatbotUI = () => {
 
   if (session) {
     return (
-      <div className="h-screen flex w-screen flex-col p-6">
+      <div className="h-screen flex w-screen flex-col p-3">
         <header className="p-4 flex justify-between items-center border-b dark:border-gray-700">
           <DropdownMenuBtn />
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 flex bg-clip-text text-transparent">
