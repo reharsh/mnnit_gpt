@@ -9,6 +9,10 @@ const nextConfig = {
     };
     return config;
   },
+  reactStrictMode: true,
+  images: {
+    domains: ["drive.google.com", "www.google.com"],
+  },
   experimental: {
     outputFileTracingIncludes: {
       "/*": ["./cache/**/*"],

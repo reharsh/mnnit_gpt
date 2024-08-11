@@ -4,9 +4,19 @@ import {
   storageContextFromDefaults,
   VectorStoreIndex,
   TogetherEmbedding,
+  OpenAIEmbedding,
+  SentenceSplitter,
+  Document,
+  SimpleNodeParser,
 } from "llamaindex";
 
+import OpenAI from "openai";
+import { Pinecone } from "@pinecone-database/pinecone";
+
 import * as dotenv from "dotenv";
+
+// This is suppose to be vector embeddings generate for the vector database but it is a mess rn,
+// Instead use the provided colab file to upsert to pc or execute the similar implementation to this file.
 
 import {
   CHUNK_OVERLAP,
@@ -47,9 +57,10 @@ async function generateDatasource(serviceContext) {
   const serviceContext = serviceContextFromDefaults({
     chunkSize: CHUNK_SIZE,
     chunkOverlap: CHUNK_OVERLAP,
-    embedModel: new TogetherEmbedding(),
+    embedModel: new OpenAIEmbedding(),
   });
 
   await generateDatasource(serviceContext);
+
   console.log("Finished generating storage.");
 })();

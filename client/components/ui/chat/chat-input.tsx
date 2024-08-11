@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Button } from "../button";
+import { Button } from "../../ui/button";
 import FileUploader from "../file-uploader";
 import { Input } from "../input";
 import UploadImagePreview from "../upload-image-preview";
 import { ChatHandler } from "./chat.interface";
+import { Send } from "lucide-react";
 
 export default function ChatInput(
   props: Pick<
@@ -28,6 +29,8 @@ export default function ChatInput(
       setImageUrl(null);
       return;
     }
+    //@ts-ignore
+    props.onFileError(true);
     props.handleSubmit(e);
   };
 
@@ -55,28 +58,24 @@ export default function ChatInput(
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-xl bg-white dark:bg-transparent p-4 shadow-xl space-y-4"
-    >
-      {imageUrl && (
-        <UploadImagePreview url={imageUrl} onRemove={onRemovePreviewImage} />
-      )}
-      <div className="flex w-full items-start justify-between gap-4 ">
+    <form onSubmit={onSubmit} className="rounded-full py-4 space-y-4">
+      <div className="flex w-full items-center justify-between gap-2">
         <Input
           autoFocus
+          autoComplete="off"
           name="message"
-          placeholder="Type a message"
-          className="flex-1"
+          placeholder="ask moti..."
+          className="flex-1 rounded-xl h-12"
           value={props.input}
           onChange={props.handleInputChange}
         />
-        <FileUploader
-          onFileUpload={handleUploadFile}
-          onFileError={props.onFileError}
-        />
-        <Button type="submit" disabled={props.isLoading}>
-          Send message
+        <Button
+          variant="default"
+          className=" h-12 rounded-lg bg-gradient-to-r from-blue-700 to-blue-400"
+          disabled={props.isLoading}
+        >
+          <Send className=" md:mr-2 mr-0 h-5 w-5" />
+          <div className="md:flex hidden">Send</div>
         </Button>
       </div>
     </form>

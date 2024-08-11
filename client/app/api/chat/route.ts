@@ -42,6 +42,7 @@ export async function POST(request: NextRequest) {
     }
 
     const llm = new OpenAI({
+      model: "gpt-4o-mini",
       apiKey: process.env.OPENAI_API_KEY,
     });
 
