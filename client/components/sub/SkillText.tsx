@@ -20,7 +20,7 @@ const SkillText = () => {
       </motion.div>
       <motion.div
         variants={slideInFromLeft(0.5)}
-        className="text-[30px] text-white font-medium mt-[10px] text-center mb-[15px]"
+        className="md:text-[30px] text-2xl text-white font-medium mt-[10px] text-center mb-[15px]"
       >
         Our Early Access Users Loves Us
       </motion.div>
@@ -28,7 +28,7 @@ const SkillText = () => {
         variants={slideInFromRight(0.5)}
         className=" text-[20px] text-gray-200 mb-10 mt-[10px] text-center"
       >
-        Never miss a task, deadline or idea
+        Civilizations peaks with curiosity.
       </motion.div>
     </div>
   );

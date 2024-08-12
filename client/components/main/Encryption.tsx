@@ -11,7 +11,7 @@ const Encryption = () => {
       <div className="absolute w-auto h-auto top-0 z-[5]">
         <motion.div
           variants={slideInFromTop}
-          className="text-[40px] font-medium text-center text-gray-200"
+          className="md:text-[40px] text-2xl font-medium text-center text-gray-200"
         >
           Performance
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 to-cyan-500">
@@ -45,7 +45,7 @@ const Encryption = () => {
         </div>
       </div>
       <div className="absolute z-[20] bottom-[10px] px-[5px]">
-        <div className=" text-[20px] font-medium text-center text-gray-300">
+        <div className=" md:text-[20px] text-lg font-medium text-center text-gray-300">
           Secure your data with end-to-end encryption
         </div>
       </div>
