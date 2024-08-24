@@ -28,7 +28,7 @@ const CollegeInfoPortal: React.FC = () => {
   const [qnas, setQnas] = useState<QnA[]>([]);
   const [newQuestion, setNewQuestion] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
-  const [isAddingNew, setIsAddingNew] = useState(false);
+  const [isAddingNew, setIsAddingNew] = useState(false); 
 
   useEffect(() => {
     // Simulating fetching data from an API

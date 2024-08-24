@@ -258,9 +258,6 @@ const CommitteeDirectory: React.FC = () => {
           </div>
         </Link>
       </header>
-      <h1 className="text-3xl font-bold mb-6">
-        Institute Directory - Coming Soon...
-      </h1>
       {Object.entries(directoryData).map(([category, members]) => (
         <CategorySection key={category} title={category} members={members} />
       ))}
